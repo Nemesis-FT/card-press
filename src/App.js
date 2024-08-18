@@ -6,8 +6,8 @@ import {Container} from "react-bootstrap";
 import Navi from './Components/Navi';
 
 function App() {
-  const [config, setConfig] = useState({})
-  const [storage, setStorage] = useState({})
+  const [config, setConfig] = useState(null)
+  const [storage, setStorage] = useState(null)
 
   useEffect(() => {
     onLoad();
@@ -20,14 +20,19 @@ function App() {
         sources: [
 
         ],
-        applicationVersion: "0.1"
+        applicationVersion: "0.1.1"
       });
       localStorage.setItem("config", conf);
 
     }
     let parsedConf = JSON.parse(conf)
-    if(parsedConf.applicationVersion !== "0.1"){
+    if(parsedConf.applicationVersion !== "0.1.1"){
       alert("This application was previously used in an older version. The conversion sorcerer will attempt to convert your stuff.")
+      if(parsedConf.applicationVersion === "0.1"){
+        parsedConf.applicationVersion = "0.1.1";
+        parsedConf.enableJumbotron = true;
+      }
+      localStorage.setItem("config", JSON.stringify(parsedConf))
     }
     setConfig(parsedConf);
   }
@@ -54,6 +59,10 @@ function App() {
     document.body.style.color = "#fff"
     await getOrCreateConfig();
     await getOrCreateStorage();
+  }
+
+  if(config===null){
+    return(<div>Loading...</div>)
   }
 
   return (

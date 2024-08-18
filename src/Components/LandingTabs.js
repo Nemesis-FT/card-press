@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import SettingsTab from "./Tabs/SettingsTab";
+import SearchTab from "./Tabs/SearchTab";
 
-function DashboardTabs() {
+function LandingTabs() {
     const [key, setKey] = useState('spells');
 
     return (
@@ -16,13 +18,13 @@ function DashboardTabs() {
                 This is the content tab.
             </Tab>
             <Tab eventKey="spells" title="Spell list">
-                This is the spells search tab
+                <SearchTab/>
             </Tab>
             <Tab eventKey="settings" title="Your settings">
-                This is the settings tab
+                <SettingsTab/>
             </Tab>
         </Tabs>
     );
 }
 
-export default DashboardTabs;
+export default LandingTabs;
