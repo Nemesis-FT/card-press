@@ -37,20 +37,18 @@ export default function SettingsTab() {
             alert("Backend is not responding. It will not get added.")
             return
         }
-
-        config.sources.push({name: newBackendName, url: newBackendUrl, id: crypto.randomUUID()})
-        setConfig(config);
-        updateConfig(config);
+        let sources = config.sources
+        sources.push({name: newBackendName, url: newBackendUrl, id: crypto.randomUUID()})
+        setConfig({...config, sources: sources});
+        updateConfig({...config, sources: sources});
         setSourceAddShow(false)
     }
 
     function deleteBackend(id){
-        config.sources = config.sources.filter(elem => elem.id !== id)
-        setConfig(config);
-        updateConfig(config);
+        let sources = config.sources.filter(elem => elem.id !== id)
+        setConfig({...config, sources:sources});
+        updateConfig({...config, sources:sources});
         alert("Successfully deleted!")
-        setReload(true)
-        setTimeout(()=>{setReload(false)}, 100);
     }
 
     if(config===null || reload){
@@ -136,15 +134,12 @@ export default function SettingsTab() {
                 <h3>Application</h3>
                 <Form>
                     <Form.Group as={Row} className="mb-3">
-                        <Form.Label column sm={2}>
-                            Show jumbotron?
-                        </Form.Label>
                         <Col sm={10}>
-                            <Form.Check type="checkbox" checked={showJumbotron} onChange={event => {
-                                config.enableJumbotron = !showJumbotron
-                                setConfig(config)
+                            <Form.Check type="checkbox" inline label={"Show jumbotron?"} checked={showJumbotron} onChange={event => {
+
+                                setConfig({...config, enableJumbotron: !showJumbotron})
                                 setShowJumbotron(!showJumbotron)
-                                updateConfig(config)
+                                updateConfig({...config, enableJumbotron: !showJumbotron})
                             }}/>
                         </Col>
                     </Form.Group>

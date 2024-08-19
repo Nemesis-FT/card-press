@@ -11,24 +11,24 @@ import Button from "react-bootstrap/Button";
 export default function Filters(props) {
     const {config} = useAppContext()
 
+    const [filters, setFilters] = useState(props.filters)
+
     const sourcesList = ["aag", "ai", "bmt", "ftd", "ggr", "idrotf", "phb", "sato", "scc", "tce", "xge", "custom"]
 
     const classList = ["Artificier", "Bard", "Cleric", "Druid", "Monk", "Paladin", "Ranger", "Sorcerer", "Warlock", "Wizard"]
 
     const levelList = ["Cantrip", "1st Level", "2nd Level", "3rd Level", "4th Level", "5th Level", "6th Level", "7th Level", "8th Level", "9th Level"]
 
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(false)
 
-    class Filter {
-        constructor(type, value) {
-            this.type = type
-            this.value = value
-        }
-    }
+    useEffect(() => {
+        console.debug("Filters (INNER):" +filters)
+        props.setFilters(filters)
+    }, [filters])
 
     return (
         <div>
-            <Button variant={"light"} onClick={() => {setShow(true)}}>Show filters</Button>
+            <Button variant={"light"}  onClick={() => {setShow(true)}}>Filters</Button>
             <Modal show={show} onHide={(event) => {setShow(false)}} style={{"--bs-modal-header-border-color": "#41454c", "--bs-modal-footer-border-color": "#41454c"}} >
                 <div style={{"backgroundColor":"#212529", "borderRadius": "5px"}}>
                     <Modal.Header closeButton>
@@ -39,29 +39,26 @@ export default function Filters(props) {
                             <Col>
                                 <h4>Sources</h4>
                                 {sourcesList.map(elem =>
-                                    <Checker key={elem} filter={new Filter("source", elem)} setFilters={props.setFilters}
-                                             filters={props.filters}/>)}
+                                    <Checker key={elem} filter={{type: "source", value: elem}} setFilters={setFilters}
+                                             filters={filters}/>)}
                             </Col>
                             <Col>
                                 <h4>Classes</h4>
                                 {classList.map(elem =>
-                                    <Checker key={elem} filter={new Filter("class", elem)} setFilters={props.setFilters}
-                                             filters={props.filters}/>)}
+                                    <Checker key={elem} filter={{type: "class", value: elem}} setFilters={setFilters}
+                                             filters={filters}/>)}
                             </Col>
                             <Col>
                                 <h4>Levels</h4>
                                 {levelList.map(elem =>
-                                    <Checker key={elem} filter={new Filter("class", elem)} setFilters={props.setFilters}
-                                             filters={props.filters}/>)}
+                                    <Checker key={elem} filter={{type: "level", value: elem}} setFilters={setFilters}
+                                             filters={filters}/>)}
                             </Col>
                         </Row>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={(event) => {setShow(false)}}>
                             Close
-                        </Button>
-                        <Button variant="light" onClick={console.log(props.filters)}>
-                            Save Changes
                         </Button>
                     </Modal.Footer>
                 </div>
