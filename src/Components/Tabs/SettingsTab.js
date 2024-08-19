@@ -91,7 +91,7 @@ export default function SettingsTab() {
                 <Modal show={sourceAddShow} onHide={(event) => {setSourceAddShow(false)}} style={{"--bs-modal-header-border-color": "#41454c", "--bs-modal-footer-border-color": "#41454c"}} >
                     <div style={{"backgroundColor":"#212529", "borderRadius": "5px"}}>
                         <Modal.Header closeButton>
-                            <Modal.Title>Modal heading</Modal.Title>
+                            <Modal.Title>Add a new source</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <p>Please provide a valid remote backend url.</p>
