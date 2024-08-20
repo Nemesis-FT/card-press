@@ -1,0 +1,15 @@
+.ScrollableLeft{
+    overflow-y: scroll;
+    max-height: 18rem;
+    padding-right: 20px;
+}
+
+.TableHead{
+    position: sticky;
+    top: 0;
+    border: 2px transparent solid;
+}
+
+.TableHeadElement{
+    background-color: rgb(77, 79, 81) !important;
+}
