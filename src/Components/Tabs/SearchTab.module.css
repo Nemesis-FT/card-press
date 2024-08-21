@@ -1,7 +1,7 @@
 .ScrollableLeft{
     overflow-y: scroll;
-    max-height: 18rem;
-    padding-right: 20px;
+    max-height: 30rem;
+    border-radius: 15px;
 }
 
 .TableHead{
@@ -11,5 +11,5 @@
 }
 
 .TableHeadElement{
-    background-color: rgb(77, 79, 81) !important;
+    background-color: rgb(98, 99, 100) !important;
 }

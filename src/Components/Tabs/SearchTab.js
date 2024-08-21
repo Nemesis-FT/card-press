@@ -9,6 +9,7 @@ import Panel from "../Bricks/Panel";
 import Filters from "./Filters";
 import Button from "react-bootstrap/Button";
 import Style from "./SearchTab.module.css"
+import SpellDetails from "./SpellDetails";
 
 export default function SearchTab() {
     const {config, storage} = useAppContext()
@@ -19,17 +20,21 @@ export default function SearchTab() {
 
     const [data, setData] = useState([]);
 
+    const [target, setTarget] = useState(null)
+
+    const [selection, setSelection] = useState([])
+
     const levelLookup = {
-        0:"Cantrip",
-        1:"1st Level",
-        2:"2nd Level",
-        3:"3rd Level",
-        4:"4th Level",
-        5:"5th Level",
-        6:"6th Level",
-        7:"7th Level",
-        8:"8th Level",
-        9:"9th Level"
+        0: "Cantrip",
+        1: "1st Level",
+        2: "2nd Level",
+        3: "3rd Level",
+        4: "4th Level",
+        5: "5th Level",
+        6: "6th Level",
+        7: "7th Level",
+        8: "8th Level",
+        9: "9th Level"
     }
 
     useEffect(() => {
@@ -111,8 +116,8 @@ export default function SearchTab() {
                 return false
             })
         }
-        let levels = filters.filter(elem => elem.type === "level").map(elem=>elem.value)
-        if(levels.length !== 0){
+        let levels = filters.filter(elem => elem.type === "level").map(elem => elem.value)
+        if (levels.length !== 0) {
             data = data.filter(spell => levels.includes(levelLookup[spell.level]))
         }
         setData(data)
@@ -128,17 +133,17 @@ export default function SearchTab() {
         return true;
     }
 
-    function sortBy(field){
+    function sortBy(field) {
         let tmp = [...data]
-        console.debug("Sorting by "+field)
-        tmp.sort(function(a, b) {
+        console.debug("Sorting by " + field)
+        tmp.sort(function (a, b) {
             let textA = a[field].toString().toUpperCase();
             let textB = b[field].toString().toUpperCase();
             return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
         })
         // it was already sorted!
-        if(arraysEqual(tmp, data)){
-            tmp.sort(function(a, b) {
+        if (arraysEqual(tmp, data)) {
+            tmp.sort(function (a, b) {
                 let textA = a[field].toString().toUpperCase();
                 let textB = b[field].toString().toUpperCase();
                 return (textA < textB) ? 1 : (textA > textB) ? -1 : 0;
@@ -176,35 +181,53 @@ export default function SearchTab() {
                     <Filters filters={filters} setFilters={setFilters}/>
                 </Col>
             </Row>
-            <Row>
-                <Col sm={6}>
-                    <div className={Style.ScrollableLeft}>
-                        <Table striped bordered hover>
-                            <thead className={Style.TableHead}>
-                            <tr>
-                                <th className={Style.TableHeadElement} onClick={event => {sortBy("name")}}>Spell name</th>
-                                <th className={Style.TableHeadElement} onClick={event => {sortBy("level")}}>Level</th>
-                                <th className={Style.TableHeadElement} onClick={event => {sortBy("school")}}>School</th>
-                            </tr>
-                            </thead>
+            <Panel>
+                <Row>
+                    <Col sm={6}>
+                        {data.length === 0 && <p>Please choose at least one filter.</p>}
+                        {data.length !== 0 &&
+                            <div className={Style.ScrollableLeft}>
+                                <Table striped bordered hover>
+                                    <thead className={Style.TableHead}>
+                                    <tr>
+                                        <th className={Style.TableHeadElement} onClick={event => {
+                                            sortBy("name")
+                                        }}>Spell name
+                                        </th>
+                                        <th className={Style.TableHeadElement} onClick={event => {
+                                            sortBy("level")
+                                        }}>Level
+                                        </th>
+                                        <th className={Style.TableHeadElement} onClick={event => {
+                                            sortBy("school")
+                                        }}>School
+                                        </th>
+                                    </tr>
+                                    </thead>
 
-                            <tbody className={Style.Scrollable}>
-                            {data.map(spell => (
-                                <tr>
-                                    <td>{spell.name}</td>
-                                    <td>{spell.level}</td>
-                                    <td>{spell.school}</td>
-                                </tr>
-                            ))}
-                            </tbody>
+                                    <tbody className={Style.Scrollable}>
+                                    {data.map(spell => (
+                                        <tr onClick={event => {
+                                            setTarget(spell)
+                                        }}>
+                                            <td>{spell.name}</td>
+                                            <td>{spell.level}</td>
+                                            <td>{spell.school}</td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
 
-                        </Table>
-                    </div>
-                </Col>
-                <Col sm={6}>
-
-                </Col>
-            </Row>
+                                </Table>
+                            </div>}
+                    </Col>
+                    <Col sm={6}>
+                        <div className={Style.ScrollableLeft}>
+                            {target !== null &&
+                                <SpellDetails item={target} setSelection={setSelection} selection={selection}/>}
+                        </div>
+                    </Col>
+                </Row>
+            </Panel>
         </div>
     );
 }
