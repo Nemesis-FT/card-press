@@ -3,6 +3,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import SettingsTab from "./Tabs/SettingsTab";
 import SearchTab from "./Tabs/SearchTab";
+import CreationTab from "./Tabs/CreationTab";
 
 function LandingTabs() {
     const [key, setKey] = useState('spells');
@@ -15,7 +16,7 @@ function LandingTabs() {
             className="mb-3" fill
         >
             <Tab eventKey="data" title="Your content">
-                This is the content tab.
+                <CreationTab/>
             </Tab>
             <Tab eventKey="spells" title="Spell list">
                 <SearchTab/>
