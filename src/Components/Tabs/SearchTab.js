@@ -11,7 +11,7 @@ import Button from "react-bootstrap/Button";
 import Style from "./SearchTab.module.css"
 import SpellDetails from "./SpellDetails";
 
-export default function SearchTab() {
+export default function SearchTab(props) {
     const {config, storage} = useAppContext()
 
     const [backend, setBackend] = useState(null);
@@ -23,6 +23,12 @@ export default function SearchTab() {
     const [target, setTarget] = useState(null)
 
     const [selection, setSelection] = useState([])
+
+    useEffect(() => {
+        if(props.setSelected !== undefined){
+            props.setSelected(target)
+        }
+    }, [target]);
 
     const levelLookup = {
         0: "Cantrip",

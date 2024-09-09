@@ -6,7 +6,7 @@ import SearchTab from "./Tabs/SearchTab";
 import CreationTab from "./Tabs/CreationTab";
 
 function LandingTabs() {
-    const [key, setKey] = useState('spells');
+    const [key, setKey] = useState('data');
 
     return (
         <Tabs
@@ -17,9 +17,6 @@ function LandingTabs() {
         >
             <Tab eventKey="data" title="Your content">
                 <CreationTab/>
-            </Tab>
-            <Tab eventKey="spells" title="Spell list">
-                <SearchTab/>
             </Tab>
             <Tab eventKey="settings" title="Your settings">
                 <SettingsTab/>
